@@ -1,1 +1,6 @@
 /* styles for root component */
+.container {
+    padding: 50px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: orange;
+}

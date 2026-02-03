@@ -1,3 +1,13 @@
 //root react component
 import React from 'react';
-export default () => { return (<div style={{height: '100px', width: '100px', backgroundColor:'orange'}}></div>) }
+import styles from './App.module.css';
+
+export default function App() {
+
+
+    return (
+    <div className={styles.container}>
+        <h1>Job Tracker</h1>
+    </div>
+    )
+}
