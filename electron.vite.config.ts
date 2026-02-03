@@ -1,4 +1,5 @@
 import {defineConfig} from 'electron-vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
     main: {
@@ -16,14 +17,7 @@ export default defineConfig({
         }
     },
     renderer: {
-        root: "src/renderer"
+        root: "src/renderer",
+        plugins: [react()]
     }
 })
-
-// export default config {
-//     return {
-//         "main": "src/main/index.ts",
-//         "preload": "src/preload/index.ts",
-//         "renderer": "src/renderer/"
-//     }
-// }
