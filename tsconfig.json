@@ -6,4 +6,5 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true
     },
+    "exclude": ["electron.vite.config.ts"]
 }
