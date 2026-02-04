@@ -4,5 +4,6 @@ export interface StatusHistory {
     uid: string,
     applicationUid: string,
     oldStatus: Status | null,
-    newStatus: Status
+    newStatus: Status,
+    changedAt: string
 }
