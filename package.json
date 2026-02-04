@@ -4,11 +4,12 @@
   "description": "",
   "main": "out/main/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
-    "postinstall": "electron-rebuild"
+    "postinstall": "electron-rebuild",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
     "electron-rebuild": "^3.2.9",
     "electron-vite": "^5.0.0",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1"
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
   }
 }
