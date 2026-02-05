@@ -62,7 +62,7 @@ describe('saveApplication', () => {
 
     test('get added repo', () => {
         const getOneResult = repo.getApplication(testApp.uid);
-        expect(getOneResult).not.toBeNull;
+        expect(getOneResult).not.toBeNull();
         expect(getOneResult).toStrictEqual(testApp);
     });
 
@@ -74,7 +74,7 @@ describe('saveApplication', () => {
     test('made a status history row', () => {
         const statusStatement = db.prepare("SELECT * FROM status_history WHERE application_uid = ?");
         const statement = statusStatement.get(testApp.uid);
-        expect(statement).not.toBeNull;
+        expect(statement).not.toBeNull();
     });
 });
 
@@ -83,7 +83,7 @@ describe('getApplication', () => {
 
     test('invalid id returns null', () => {
         const result = repo.getApplication('abcdefgh');
-        expect(result).toBeNull;
+        expect(result).toBeNull();
     });
 
     test('only get 1', () => {
@@ -158,7 +158,7 @@ describe('deleteApplication', () => {
         expect(del.success).toBe(true);
 
         const result = repo.getApplication(testApp.uid);
-        expect(result).toBeNull;
+        expect(result).toBeNull();
     });
 
     test('deleted app shouldnt have status history', () => {
@@ -181,7 +181,7 @@ describe('null handling', () => {
         const testApp = getTestApp({ notes: null });
         repo.addApplication(testApp);
         const result = repo.getApplication(testApp.uid);
-        expect(result).not.toBeNull;
+        expect(result).not.toBeNull();
         expect(result?.notes).not.toBe(undefined);
         expect(result?.notes).not.toBe("");
         expect(result?.notes).toBe(null);
