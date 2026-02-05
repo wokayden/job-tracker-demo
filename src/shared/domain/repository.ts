@@ -3,7 +3,7 @@ import { JobApplication } from "./jobApplication";
 export interface JobApplicationRepository {
     getApplications: () => JobApplication[];
     getApplication: (uid: string) => JobApplication | null;
-    saveApplication: (ja: JobApplication) => RepoResponse; //success/fail
+    addApplication: (ja: JobApplication) => RepoResponse; //success/fail
     updateApplication: (uid: string, updates: Partial<JobApplication>) => RepoResponse;
     deleteApplication: (uid: string) => RepoResponse;
     getSources: () => string[];

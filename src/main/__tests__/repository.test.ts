@@ -56,7 +56,7 @@ describe.skip('saveApplication', () => {
     const testApp = getTestApp();
 
     test('adding new repo', () => {
-        const addResult = repo.saveApplication(testApp);
+        const addResult = repo.addApplication(testApp);
         expect(addResult.success).toBe(true);
     });
 
@@ -74,18 +74,78 @@ describe.skip('saveApplication', () => {
     test('made a status history row', () => {
         const statusStatement = db.prepare("SELECT * FROM status_history WHERE application_uid = ?");
         const statement = statusStatement.get(testApp.uid);
-        console.log('statement', statement);
         expect(statement).not.toBeNull;
     });
 });
 
-// describe('getApplication', () => {
+describe.skip('getApplication', () => {
+    const { repo } = getFreshRepo();
 
-// })
+    test('invalid id returns null', () => {
+        const result = repo.getApplication('abcdefgh');
+        expect(result).toBeNull;
+    });
 
-// describe('updateApplication', () => {
+    test('only get 1', () => {
+        const app1 = getTestApp();
+        const app2 = getTestApp({ companyName: 'ACME Corp' });
 
-// })
+        //add both
+        repo.addApplication(app1);
+        repo.addApplication(app2);
+
+        const savedApp2 = repo.getApplication(app2.uid);
+        expect(savedApp2).toStrictEqual(app2);
+    });
+});
+
+describe.skip('updateApplication', () => {
+    const { repo, db } = getFreshRepo();
+
+    test('notes field updates', () => {
+        const testApp = getTestApp();
+        const notesText = "This will be our test note.";
+
+        repo.addApplication(testApp);
+
+        const updateResult = repo.updateApplication(testApp.uid, { notes: notesText });
+        expect(updateResult.success).toBe(true);
+
+        const savedApp = repo.getApplication(testApp.uid);
+        expect(savedApp).toStrictEqual({ ...testApp, updatedDate: savedApp?.updatedDate, notes: notesText });
+    });
+
+    test('status change makes new log', () => {
+        const testApp = getTestApp();
+
+        repo.addApplication(testApp);
+        repo.updateApplication(testApp.uid, { status: Status.Archived });
+
+        const appHistoriesStatement = db.prepare("SELECT * FROM status_history WHERE application_uid = ?");
+        const histories = appHistoriesStatement.all(testApp.uid);
+
+        expect(histories).toHaveLength(2);
+        expect(histories).toContainEqual(
+            expect.objectContaining({ old_status: Status.Applied, new_status: Status.Archived })
+        );
+    });
+
+    test('dont make log for non-status update', () => {
+        const testApp = getTestApp();
+        repo.addApplication(testApp);
+        repo.updateApplication(testApp.uid, { source: 'Levels.fyi' });
+
+        const appHistoriesStatement = db.prepare("SELECT * FROM status_history WHERE application_uid = ?");
+        const histories = appHistoriesStatement.all(testApp.uid);
+
+        expect(histories).toHaveLength(1);
+    });
+
+    test('cant update invalid uid app', () => {
+        const result = repo.updateApplication('1234', { notes: "woah" });
+        expect(result.success).toBe(false);
+    });
+});
 
 // describe('deleteApplication', () => {
 

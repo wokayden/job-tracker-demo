@@ -85,7 +85,7 @@ export class Repository implements JobApplicationRepository {
         if (app === undefined) return null;
         return this.toJobApp(app);
     }
-    saveApplication(ja: JobApplication) {
+    addApplication(ja: JobApplication) {
         let response: RepoResponse = { success: false, message: null };
 
         try {
@@ -123,7 +123,7 @@ export class Repository implements JobApplicationRepository {
                 }
             }
 
-            const existingWithUpdates: JobApplication = { ...existingRow, ...updates };
+            const existingWithUpdates: JobApplication = { ...existingRow, ...updates, updatedDate: new Date().toISOString() };
             this.database.transaction(() => {
                 const result = this.updateApp.run(this.toApplicationDbRow(existingWithUpdates));
                 response.message = `${result.changes} application row(s) updated.`;
