@@ -1,10 +1,13 @@
 //root react component
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './App.module.css';
 
 export default function App() {
-
-
+    useEffect(() => {
+        const sources = window.api.getSources();
+        console.log(sources);
+    }, []);
+    
     return (
     <div className={styles.container}>
         <h1>Job Tracker</h1>

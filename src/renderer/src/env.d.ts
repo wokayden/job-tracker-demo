@@ -1,7 +1,6 @@
-type JobApplication = import("../../shared/domain").JobApplication;
-type RepoResponse = import("../../shared/domain").RepoResponse;
+import { JobApplication, RepoResponse } from "../../shared/domain";
 
-interface Api {
+export interface Api {
     getApplications: () => Promise<JobApplication[]>,
     getApplication: (uid: string) => Promise<JobApplication | null>,
     addApplication: (ja: JobApplication) => Promise<RepoResponse>,
@@ -9,11 +8,6 @@ interface Api {
     deleteApplication: (uid: string) => Promise<RepoResponse>,
     getSources: () => Promise<string[]>,
     addSource: (s: string) => Promise<RepoResponse>
-}
-
-declare module "*.module.css"{
-    const classes: { [key: string]: string };
-    export default classes;
 }
 
 declare global {
