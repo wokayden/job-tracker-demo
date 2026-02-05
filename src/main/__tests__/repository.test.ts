@@ -26,7 +26,7 @@ function getTestApp(dummyData?: Partial<JobApplication>): JobApplication {
     };
 }
 
-describe.skip('getSources', () => {
+describe('getSources', () => {
     const { repo } = getFreshRepo();
 
     test('default sources as expected', () => {
@@ -51,7 +51,7 @@ describe.skip('getSources', () => {
     });
 });
 
-describe.skip('saveApplication', () => {
+describe('saveApplication', () => {
     const { repo, db } = getFreshRepo();
     const testApp = getTestApp();
 
@@ -78,7 +78,7 @@ describe.skip('saveApplication', () => {
     });
 });
 
-describe.skip('getApplication', () => {
+describe('getApplication', () => {
     const { repo } = getFreshRepo();
 
     test('invalid id returns null', () => {
@@ -99,7 +99,7 @@ describe.skip('getApplication', () => {
     });
 });
 
-describe.skip('updateApplication', () => {
+describe('updateApplication', () => {
     const { repo, db } = getFreshRepo();
 
     test('notes field updates', () => {
@@ -147,10 +147,50 @@ describe.skip('updateApplication', () => {
     });
 });
 
-// describe('deleteApplication', () => {
+describe('deleteApplication', () => {
+    const { repo, db } = getFreshRepo();
+    const testApp = getTestApp();
 
-// })
+    test('cant get a deleted app', () => {
+        repo.addApplication(testApp);
 
-// describe('null handling', () => {
+        const del = repo.deleteApplication(testApp.uid);
+        expect(del.success).toBe(true);
 
-// })
+        const result = repo.getApplication(testApp.uid);
+        expect(result).toBeNull;
+    });
+
+    test('deleted app shouldnt have status history', () => {
+        const appHistoriesStatement = db.prepare("SELECT * FROM status_history WHERE application_uid = ?");
+        const histories = appHistoriesStatement.all(testApp.uid);
+
+        expect(histories).toHaveLength(0);
+    });
+
+    test('deleting nonexistant has success false', () => {
+        const result = repo.deleteApplication('1122334455');
+        expect(result.success).toBe(false);
+    });
+});
+
+describe('null handling', () => {
+    const { repo } = getFreshRepo();
+
+    test('null notes indeed null', () => {
+        const testApp = getTestApp({ notes: null });
+        repo.addApplication(testApp);
+        const result = repo.getApplication(testApp.uid);
+        expect(result).not.toBeNull;
+        expect(result?.notes).not.toBe(undefined);
+        expect(result?.notes).not.toBe("");
+        expect(result?.notes).toBe(null);
+    });
+
+    test('null reason indeed null', () => {
+        const testApp = getTestApp({ reason: null });
+        repo.addApplication(testApp);
+        const result = repo.getApplication(testApp.uid);
+        expect(result?.reason).toBe(null);
+    });
+});
