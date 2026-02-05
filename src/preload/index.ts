@@ -10,5 +10,6 @@ contextBridge.exposeInMainWorld('api', {
     updateApplication: (uid: string, ja: Partial<JobApplication>) => ipcRenderer.invoke(channelKeys.updateApplication, uid, ja),
     deleteApplication: (uid: string) => ipcRenderer.invoke(channelKeys.deleteApplication, uid),
     getSources: () => ipcRenderer.invoke(channelKeys.getSources),
-    addSource: (s: string) => ipcRenderer.invoke(channelKeys.addSource, s)
+    addSource: (s: string) => ipcRenderer.invoke(channelKeys.addSource, s),
+    openExternal: (url: string) => ipcRenderer.invoke(channelKeys.openExternal, url)
 });

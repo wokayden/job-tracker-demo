@@ -1,5 +1,5 @@
 //main process entry point
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'path';
 import { getDatabase } from './database';
 import { Repository } from './repository';
@@ -32,6 +32,10 @@ app.on('ready', () => {
     });
     ipcMain.handle(channelKeys.addSource, (_e, s: string) => {
         return repo.addSource(s)
+    });
+
+    ipcMain.handle(channelKeys.openExternal, (_e, url: string) => {
+        if (url.startsWith("http://") || url.startsWith("https://")) return shell.openExternal(url)
     });
 
     
