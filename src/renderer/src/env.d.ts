@@ -1,4 +1,5 @@
-import { JobApplication, RepoResponse } from "../../shared/domain";
+type JobApplication = import("../../shared/domain").JobApplication;
+type RepoResponse = import("../../shared/domain").RepoResponse;
 
 interface Api {
     getApplications: () => Promise<JobApplication[]>,
