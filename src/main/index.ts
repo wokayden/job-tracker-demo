@@ -1,9 +1,40 @@
 //main process entry point
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
+import { getDatabase } from './database';
+import { Repository } from './repository';
+import { channelKeys } from '../shared/ipc/channels';
+import { JobApplication } from '../shared/domain';
 
 //when app is ready, create a new browserwindow
 app.on('ready', () => {
+    const dbPath = path.join(app.getPath('userData'), 'job-tracker.db');
+    const db = getDatabase(dbPath);
+    const repo: Repository = new Repository(db);
+
+    ipcMain.handle(channelKeys.getApplications, () => {
+        return repo.getApplications()
+    });
+    ipcMain.handle(channelKeys.getApplication, (_e, uid: string) => {
+        return repo.getApplication(uid)
+    });
+    ipcMain.handle(channelKeys.addApplication, (_e, ja: JobApplication) => {
+        return repo.addApplication(ja)
+    });
+    ipcMain.handle(channelKeys.updateApplication, (_e, uid: string, ja: Partial<JobApplication>) => {
+        return repo.updateApplication(uid, ja)
+    });
+    ipcMain.handle(channelKeys.deleteApplication, (_e, uid: string) => {
+        return repo.deleteApplication(uid)
+    });
+    ipcMain.handle(channelKeys.getSources, () => {
+        return repo.getSources()
+    });
+    ipcMain.handle(channelKeys.addSource, (_e, s: string) => {
+        return repo.addSource(s)
+    });
+
+    
     const mainWindow = new BrowserWindow({ width: 500, height: 500, webPreferences: {
         preload: path.join(__dirname, '../preload/index.js'),
         nodeIntegration: false,
