@@ -1,6 +1,9 @@
 /* styles for root component */
 .container {
-    padding: 50px;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 50px;
     background-color: orange;
+
 }
