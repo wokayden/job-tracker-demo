@@ -1,4 +1,14 @@
-interface Api {}
+import { JobApplication, RepoResponse } from "../../shared/domain";
+
+interface Api {
+    getApplications: () => Promise<JobApplication[]>,
+    getApplication: (uid: string) => Promise<JobApplication | null>,
+    addApplication: (ja: JobApplication) => Promise<RepoResponse>,
+    updateApplication: (uid: string, ja: Partial<JobApplication>) => Promise<RepoResponse>,
+    deleteApplication: (uid: string) => Promise<RepoResponse>,
+    getSources: () => Promise<string[]>,
+    addSource: (s: string) => Promise<RepoResponse>
+}
 
 declare module "*.module.css"{
     const classes: { [key: string]: string };
