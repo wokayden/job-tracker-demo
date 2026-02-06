@@ -39,7 +39,7 @@ app.on('ready', () => {
     });
 
     
-    const mainWindow = new BrowserWindow({ width: 500, height: 500, webPreferences: {
+    const mainWindow = new BrowserWindow({ width: 1000, height: 650, webPreferences: {
         preload: path.join(__dirname, '../preload/index.cjs'),
         nodeIntegration: false,
         contextIsolation: true

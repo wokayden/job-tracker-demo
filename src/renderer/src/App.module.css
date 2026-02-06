@@ -2,8 +2,17 @@
 .container {
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
-    flex-direction: row-reverse;
-    padding: 50px;
-    background-color: orange;
+    flex-direction: row;
+    height: inherit;
+    width: inherit;
+}
 
+.content {
+    margin: 0;
+    padding: 12px;
+    background-color: #fccd9f;
+    color: #2e231a;
+    flex: 3;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
