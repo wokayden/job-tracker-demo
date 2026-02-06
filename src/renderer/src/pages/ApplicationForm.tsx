@@ -2,13 +2,13 @@ import React, { ReactElement, useState, useEffect } from "react";
 import styles from './ApplicationForm.module.css';
 
 export function ApplicationForm(): ReactElement {
-    const [companyName, setCompanyName] = useState<string|undefined>();
-    const [url, setUrl] = useState<string|undefined>();
-    const [notes, setNotes] = useState<string|undefined>();
-    const [source, setSource] = useState<string|undefined>();
-    const [otherSource, setOtherSource] = useState<string|undefined>();
+    const [companyName, setCompanyName] = useState<string>('');
+    const [url, setUrl] = useState<string>('');
+    const [notes, setNotes] = useState<string>('');
+    const [source, setSource] = useState<string>('');
+    const [otherSource, setOtherSource] = useState<string>('');
     const [otherSourceVisible, setOtherSourceVisible] = useState<boolean>(false);
-    const [availableSources, setAvailableSources] = useState<string[]|undefined>();
+    const [availableSources, setAvailableSources] = useState<string[]>([]);
 
     function onSubmit() {
         //validate fields - no whitespace
@@ -73,9 +73,9 @@ export function ApplicationForm(): ReactElement {
                         if (e.target.value !== "" && e.target.value !== 'other') setSource(e.target.value);
                     }}>
                         <option value="">Please select an option</option>
-                        {availableSources?.map((s) => {
+                        {availableSources.map((s) => {
                             return (
-                                <option value={s}>{s}</option>
+                                <option value={s} key={`source-option-${s}`}>{s}</option>
                             )
                         })}
                         <option value="other">Other</option>
