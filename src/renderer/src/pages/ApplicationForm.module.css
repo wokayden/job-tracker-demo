@@ -1,3 +1,7 @@
 .appForm {
     background-color: #fccd9f;
 }
+input {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}

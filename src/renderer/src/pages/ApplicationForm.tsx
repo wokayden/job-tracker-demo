@@ -1,5 +1,7 @@
 import React, { ReactElement, useState, useEffect } from "react";
 import styles from './ApplicationForm.module.css';
+import { JobApplication, Status } from "../../../shared/domain";
+import { v4 } from "uuid";
 
 export function ApplicationForm(): ReactElement {
     const [companyName, setCompanyName] = useState<string>('');
@@ -13,23 +15,88 @@ export function ApplicationForm(): ReactElement {
     function onSubmit() {
         //validate fields - no whitespace
         //company name shouldnt be blank
-        //if url, ensure valid url
-        //source not blank
-        //if notes whitespace, make null
+        if (companyName && companyName.trim().length > 0) {
+            //source not blank
+            if (
+            (source && availableSources.find(s => s === source)) || 
+            (otherSource && otherSource.trim().length > 0)
+            ) {
+                if (url && url.trim().length > 0) {
+                    //if url, ensure valid url
+                    //we are also fine without url
+                    if (/^(http|https):\/\/[^ "]+$/.test(url)) {
+                        //save record
 
-        //save record if valid
+                        //if sent, clear form fields
 
-        //if sent, clear form fields
-
-        //if new source, save that and refetch
-        //loadSources();
-    }
+                        //if new source, save that and refetch
+                        //loadSources();
+                    }
+                    else {
+                        alert("Please enter a valid URL");
+                    }
+                }
+            } else {
+                alert("Application needs a valid source");
+            }
+        } else {
+            alert("Please enter a company name");
+        }
+    };
 
     function loadSources() {
         window.api.getSources().then(s => {
             setAvailableSources(s);
         });        
+    };
+
+    function makeJobApplication(): JobApplication {
+        return {
+            uid: v4(),
+            companyName,
+            url: url.length > 0 ? url : null,
+            source: otherSource.length > 0 ? otherSource : source,
+            status: Status.Applied,
+            reason: null,
+            notes: notes.length > 0 ? notes : null,
+            createdDate: new Date().toISOString(),
+            updatedDate: null
+        }
+    };
+
+    function clearFormFields() {
+        setOtherSourceVisible(false);
+        setCompanyName('');
+        setUrl('');
+        setNotes('');
+        setSource('');
+        setOtherSource('');
     }
+
+    function completeApplication() {
+        const newJobApp = makeJobApplication();
+        //save record
+        window.api.addApplication(newJobApp).then(resp => {
+            if (resp.success) {
+                //if sent, clear form fields
+                clearFormFields();
+
+                //if new source, save that and refetch
+                if (!availableSources.find(s => s === newJobApp.source)) {
+                    window.api.addSource(newJobApp.source).then(r => {
+                        if (r.success) {
+                            loadSources();
+                        }
+                        else {
+                            alert(`Saved job application but couldn't add new source: ${r.message}`)
+                        }
+                    });
+                }
+            } else {
+                alert(`Saving job application failed: ${resp.message}`);
+            }
+        });
+    };
 
     useEffect(() => {
         loadSources();

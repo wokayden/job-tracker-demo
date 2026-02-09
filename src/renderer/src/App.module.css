@@ -16,3 +16,10 @@
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+button {
+    border-radius: 8px;
+    padding: 12px;
+    border: unset;
+    margin-top: 12px;
+}
