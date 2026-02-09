@@ -1,5 +1,5 @@
-export { JobApplication } from './jobApplication';
-export { Metrics, Source, WeekData } from './metrics';
-export { JobApplicationRepository, RepoResponse } from './repository';
+export type { JobApplication } from './jobApplication';
+export type { Metrics, Source, WeekData } from './metrics';
+export type { JobApplicationRepository, RepoResponse } from './repository';
 export { Status } from './status';
-export { StatusHistory } from './statusHistory';
+export type { StatusHistory } from './statusHistory';

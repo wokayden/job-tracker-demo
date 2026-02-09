@@ -23,18 +23,15 @@ export function ApplicationForm(): ReactElement {
             ) {
                 if (url && url.trim().length > 0) {
                     //if url, ensure valid url
-                    //we are also fine without url
                     if (/^(http|https):\/\/[^ "]+$/.test(url)) {
-                        //save record
-
-                        //if sent, clear form fields
-
-                        //if new source, save that and refetch
-                        //loadSources();
+                        completeApplication();
                     }
                     else {
                         alert("Please enter a valid URL");
                     }
+                } else {
+                    //we are also fine without url
+                    completeApplication();
                 }
             } else {
                 alert("Application needs a valid source");
