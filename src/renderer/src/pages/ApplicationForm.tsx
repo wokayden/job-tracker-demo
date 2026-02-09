@@ -83,11 +83,14 @@ export function ApplicationForm(): ReactElement {
                     window.api.addSource(newJobApp.source).then(r => {
                         if (r.success) {
                             loadSources();
+                            alert("Saved");
                         }
                         else {
                             alert(`Saved job application but couldn't add new source: ${r.message}`)
                         }
                     });
+                } else {
+                    alert("Saved");
                 }
             } else {
                 alert(`Saving job application failed: ${resp.message}`);
@@ -158,7 +161,7 @@ export function ApplicationForm(): ReactElement {
                     <span>Notes</span>
                 </div>
                 <div>
-                    <input type="textarea" value={notes} onChange={(e) => {
+                    <textarea value={notes} onChange={(e) => {
                         setNotes(e.target.value);
                     }} placeholder="Optional notes" />
                 </div>
