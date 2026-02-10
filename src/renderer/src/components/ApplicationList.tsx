@@ -1,12 +1,13 @@
 import React, { ReactElement, useContext } from 'react';
 import { Status } from '../../../shared/domain';
 import { ApplicationContext } from '../context/ApplicationContext';
+import { ApplicationCard } from '.';
 
 type ApplicationListProps = {
     status: Status
 }
 
-export default function AplicationList(props: ApplicationListProps): ReactElement {
+export function ApplicationList(props: ApplicationListProps): ReactElement {
     const { status } = props;
 
     const {
@@ -29,8 +30,33 @@ export default function AplicationList(props: ApplicationListProps): ReactElemen
     };
 
     return (
-        <ul>
-
-        </ul>
+        <>
+            {
+                isLoading ? (<span>Loading...</span>) : (
+                    <ul>
+                        {
+                            status === Status.Applied && appliedApplications.map(a => {
+                                return (
+                                    <ApplicationCard app={a} onStatusChange={(uid, newStatus, reason) => {onChangeApplicationStatus(uid, newStatus, reason)}} />
+                                )
+                            })
+                        }
+                        {
+                            status === Status.Archived && archivedApplications.map(a => {
+                                return (
+                                    <ApplicationCard app={a} onStatusChange={(uid, newStatus, reason) => {onChangeApplicationStatus(uid, newStatus, reason)}} />
+                                )
+                            })
+                        }
+                        {
+                            status === Status.Lead && leadApplications.map(a => {
+                                return (
+                                    <ApplicationCard app={a} onStatusChange={(uid, newStatus, reason) => {onChangeApplicationStatus(uid, newStatus, reason)}} />
+                                )
+                            })
+                        }
+                    </ul>
+            )}
+        </>
     )
 }

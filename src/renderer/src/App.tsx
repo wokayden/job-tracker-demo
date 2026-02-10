@@ -21,7 +21,7 @@ export default function App() {
         return applications.filter(a => a.status === Status.Lead);
     }, [applications]);
 
-    function fetchAplications() {
+    function fetchApplications() {
         setIsLoading(true);
         window.api.getApplications().then(r => {
             setApplications(r);
@@ -30,11 +30,11 @@ export default function App() {
     };
 
     useEffect(() => {
-        fetchAplications();
+        fetchApplications();
     }, []);
     return (
         <HashRouter>
-            <ApplicationContext value={{ allApplications: applications, appliedApplications, archivedApplications, leadApplications, isLoading, fetchAplications: () => fetchAplications() }}>
+            <ApplicationContext value={{ allApplications: applications, appliedApplications, archivedApplications, leadApplications, isLoading, fetchApplications }}>
                 <div className={styles.container}>
                     <Sidebar />
                     <main className={styles.content}>
