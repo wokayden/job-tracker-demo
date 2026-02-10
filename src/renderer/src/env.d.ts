@@ -7,7 +7,8 @@ export interface Api {
     updateApplication: (uid: string, ja: Partial<JobApplication>) => Promise<RepoResponse>,
     deleteApplication: (uid: string) => Promise<RepoResponse>,
     getSources: () => Promise<string[]>,
-    addSource: (s: string) => Promise<RepoResponse>
+    addSource: (s: string) => Promise<RepoResponse>,
+    openExternal: (url: string) => void
 }
 
 declare global {
