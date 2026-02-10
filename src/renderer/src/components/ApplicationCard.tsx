@@ -25,7 +25,7 @@ export function ApplicationCard(props: ApplicationCardProps): ReactElement {
             </div>
             <div>
                 <button disabled={app.status !== Status.Applied} onClick={() => {onStatusChange(app.uid, Status.Lead)}}>lead</button>
-                <button disabled={app.status !== Status.Archived} onClick={() => {onStatusChange(app.uid, Status.Archived)}}>archive</button>
+                <button disabled={app.status === Status.Archived} onClick={() => {onStatusChange(app.uid, Status.Archived)}}>archive</button>
             </div>
         </div>
     )
