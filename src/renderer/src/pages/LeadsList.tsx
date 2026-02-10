@@ -9,7 +9,7 @@ export function LeadsList(): ReactElement {
         window.api.getApplications().then(r => {
             if (r.length > 0) {
                 setAppLeads(r.filter(a => a.status === Status.Lead));
-            };
+            } else setAppLeads([])
         });        
     };
 
