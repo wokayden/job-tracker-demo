@@ -9,5 +9,5 @@ export const ApplicationContext = createContext({
     archivedApplications: allAppsDefault.filter(a => a.status === Status.Archived),
     leadApplications: allAppsDefault.filter(a => a.status === Status.Lead),
     isLoading: true, 
-    fetchAplications: () => {return} 
+    fetchApplications: () => {return} 
 });
