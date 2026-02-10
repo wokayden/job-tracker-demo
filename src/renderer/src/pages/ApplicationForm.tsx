@@ -1,7 +1,8 @@
-import React, { ReactElement, useState, useEffect } from "react";
+import React, { ReactElement, useState, useEffect, useContext } from "react";
 import styles from './ApplicationForm.module.css';
 import { JobApplication, Status } from "../../../shared/domain";
 import { v4 } from "uuid";
+import { ApplicationContext } from "../context/ApplicationContext";
 
 export function ApplicationForm(): ReactElement {
     const [companyName, setCompanyName] = useState<string>('');
@@ -11,6 +12,8 @@ export function ApplicationForm(): ReactElement {
     const [otherSource, setOtherSource] = useState<string>('');
     const [otherSourceVisible, setOtherSourceVisible] = useState<boolean>(false);
     const [availableSources, setAvailableSources] = useState<string[]>([]);
+
+    const { fetchApplications } = useContext(ApplicationContext);
 
     function onSubmit() {
         //validate fields - no whitespace
@@ -84,6 +87,7 @@ export function ApplicationForm(): ReactElement {
                         if (r.success) {
                             loadSources();
                             alert("Saved");
+                            fetchApplications();
                         }
                         else {
                             alert(`Saved job application but couldn't add new source: ${r.message}`)
@@ -91,6 +95,7 @@ export function ApplicationForm(): ReactElement {
                     });
                 } else {
                     alert("Saved");
+                    fetchApplications();
                 }
             } else {
                 alert(`Saving job application failed: ${resp.message}`);
