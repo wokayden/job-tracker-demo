@@ -7,7 +7,7 @@
     "dev": "electron-rebuild -o better-sqlite3 && electron-vite dev",
     "build": "electron-rebuild -o better-sqlite3 && electron-vite build",
     "preview": "electron-vite preview",
-    "postinstall": "electron-rebuild -o better-sqlite3",
+    "postinstall": "electron-rebuild -o better-sqlite3 -f",
     "test": "npm rebuild better-sqlite3 && vitest run",
     "test:watch": "npm rebuild better-sqlite3 && vitest"
   },
