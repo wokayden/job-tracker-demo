@@ -24,7 +24,7 @@ export default function App() {
     function fetchApplications() {
         setIsLoading(true);
         window.api.getApplications().then(r => {
-            setApplications(r);
+            setApplications(r.sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()));
             setIsLoading(false);
         });        
     };
