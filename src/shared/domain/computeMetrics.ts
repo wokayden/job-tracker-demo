@@ -1,4 +1,5 @@
 import { JobApplication, Metrics, Source, Status, WeekData } from ".";
+import { isSameWeek, min, max, eachWeekOfInterval, add } from "date-fns";
 
 export function computeMetrics(applications: JobApplication[]): Metrics {
     const appliedCount = applications.length;
@@ -18,6 +19,20 @@ export function computeMetrics(applications: JobApplication[]): Metrics {
         }
     });
 
+    const earliestDate = min(applications.map(a => a.createdDate));
+    const latestDate = max(applications.map(a => a.createdDate));
+    const weekRange = eachWeekOfInterval({ start: earliestDate, end: latestDate });
+
+    const weeklyData: WeekData[] = weekRange.map((d, i) => {
+        const jobsApplied = applications.filter(a => isSameWeek(a.createdDate, d)).length;
+        return {
+            startDate: d.toISOString(),
+            endDate: add(d, { days: 6 }).toISOString(),
+            jobsApplied
+        }
+    }).sort((a, b) =>  new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
+
+
 
     return {
         appliedCount,
@@ -26,7 +41,7 @@ export function computeMetrics(applications: JobApplication[]): Metrics {
         percentLead,
         percentArchived,
         sourceBreakdown,
-        weeklyData: [],
+        weeklyData,
         avgTimeToStatusChange: 1
     }
 }
