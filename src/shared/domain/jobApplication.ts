@@ -9,5 +9,6 @@ export interface JobApplication {
     reason: string | null,
     notes: string | null,
     createdDate: string,
-    updatedDate: string | null
+    updatedDate: string | null,
+    jobTitle: string
 }

@@ -22,6 +22,7 @@ function getTestApp(dummyData?: Partial<JobApplication>): JobApplication {
         notes: null,
         createdDate: new Date().toISOString(),
         updatedDate: null,
+        jobTitle: 'Test title',
         ...dummyData
     };
 }

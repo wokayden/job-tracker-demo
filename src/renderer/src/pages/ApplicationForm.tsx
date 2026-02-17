@@ -6,6 +6,7 @@ import { ApplicationContext } from "../context/ApplicationContext";
 
 export function ApplicationForm(): ReactElement {
     const [companyName, setCompanyName] = useState<string>('');
+    const [jobTitle, setJobTitle] = useState<string>('');
     const [url, setUrl] = useState<string>('');
     const [notes, setNotes] = useState<string>('');
     const [source, setSource] = useState<string>('');
@@ -19,25 +20,29 @@ export function ApplicationForm(): ReactElement {
         //validate fields - no whitespace
         //company name shouldnt be blank
         if (companyName && companyName.trim().length > 0) {
-            //source not blank
-            if (
-            (source && availableSources.find(s => s === source)) || 
-            (otherSource && otherSource.trim().length > 0)
-            ) {
-                if (url && url.trim().length > 0) {
-                    //if url, ensure valid url
-                    if (/^(http|https):\/\/[^ "]+$/.test(url)) {
+            if (jobTitle && jobTitle.trim().length > 0) {
+    //source not blank
+                if (
+                (source && availableSources.find(s => s === source)) || 
+                (otherSource && otherSource.trim().length > 0)
+                ) {
+                    if (url && url.trim().length > 0) {
+                        //if url, ensure valid url
+                        if (/^(http|https):\/\/[^ "]+$/.test(url)) {
+                            completeApplication();
+                        }
+                        else {
+                            alert("Please enter a valid URL");
+                        }
+                    } else {
+                        //we are also fine without url
                         completeApplication();
                     }
-                    else {
-                        alert("Please enter a valid URL");
-                    }
                 } else {
-                    //we are also fine without url
-                    completeApplication();
+                    alert("Application needs a valid source");
                 }
             } else {
-                alert("Application needs a valid source");
+                alert("Please enter a job title.")
             }
         } else {
             alert("Please enter a company name");
@@ -60,13 +65,15 @@ export function ApplicationForm(): ReactElement {
             reason: null,
             notes: notes.length > 0 ? notes : null,
             createdDate: new Date().toISOString(),
-            updatedDate: null
+            updatedDate: null,
+            jobTitle
         }
     };
 
     function clearFormFields() {
         setOtherSourceVisible(false);
         setCompanyName('');
+        setJobTitle('');
         setUrl('');
         setNotes('');
         setSource('');
@@ -106,14 +113,21 @@ export function ApplicationForm(): ReactElement {
     useEffect(() => {
         loadSources();
     }, []);
-    useEffect(() => {
-        console.log('availableSources', availableSources);
-    }, [availableSources]);
 
     return (
         <div className={styles.appForm}>
             <div>
                 <h1>New Application</h1>
+            </div>
+            <div>
+                <div>
+                    <span>*Job Title</span>
+                </div>
+                <div>
+                    <input type="text" value={jobTitle} onChange={(e) => {
+                        setJobTitle(e.target.value);
+                    }} placeholder="Job Title" />
+                </div>
             </div>
             <div>
                 <div>

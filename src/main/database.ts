@@ -17,7 +17,8 @@ export function getDatabase(path: string) {
             reason TEXT,
             notes TEXT,
             created_date TEXT NOT NULL,
-            updated_date TEXT
+            updated_date TEXT,
+            job_title TEST NOT NULL
         );
 
         CREATE TABLE IF NOT EXISTS sources
@@ -39,6 +40,12 @@ export function getDatabase(path: string) {
             FOREIGN KEY (application_uid) REFERENCES applications (uid) ON DELETE CASCADE
         );
     `);
+
+    const tableinfo = db.pragma("table_info('applications')");
+    if (!(tableinfo as unknown as unknown[]).find((c: any) => c.name === 'job_title')) {
+        //make job_title column
+        db.exec("ALTER TABLE applications ADD COLUMN job_title TEXT NOT NULL DEFAULT ''");
+    }
 
     return db;
 }

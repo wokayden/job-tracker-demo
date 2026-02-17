@@ -18,8 +18,8 @@ export class Repository implements JobApplicationRepository {
 
         this.selectApps = db.prepare("SELECT * FROM applications;");
         this.selectApp = db.prepare("SELECT * FROM applications WHERE uid = ? LIMIT 1;");
-        this.insertApp = db.prepare("INSERT INTO applications (uid, company_name, url, source, status, reason, notes, created_date, updated_date) VALUES (@uid, @company_name, @url, @source, @status, @reason, @notes, @created_date, @updated_date);");
-        this.updateApp = db.prepare("UPDATE applications SET company_name = @company_name, url = @url, source = @source, status = @status, reason = @reason, notes = @notes, created_date = @created_date, updated_date = @updated_date WHERE uid = @uid;");
+        this.insertApp = db.prepare("INSERT INTO applications (uid, company_name, url, source, status, reason, notes, created_date, updated_date, job_title) VALUES (@uid, @company_name, @url, @source, @status, @reason, @notes, @created_date, @updated_date, @job_title);");
+        this.updateApp = db.prepare("UPDATE applications SET company_name = @company_name, url = @url, source = @source, status = @status, reason = @reason, notes = @notes, created_date = @created_date, updated_date = @updated_date, job_title = @job_title WHERE uid = @uid;");
         this.deleteApp = db.prepare("DELETE FROM applications WHERE uid = ?;");
         this.selectSources = db.prepare("SELECT * FROM sources;");
         this.insertSource = db.prepare("INSERT OR IGNORE INTO sources (name) VALUES (?);");
@@ -37,7 +37,8 @@ export class Repository implements JobApplicationRepository {
             reason: dbRow.reason,
             notes: dbRow.notes,
             createdDate: dbRow.created_date,
-            updatedDate: dbRow.updated_date
+            updatedDate: dbRow.updated_date,
+            jobTitle: dbRow.job_title
         }
     };
     private toApplicationDbRow(jobApp: JobApplication) {
@@ -50,7 +51,8 @@ export class Repository implements JobApplicationRepository {
             reason: jobApp.reason,
             notes: jobApp.notes,
             created_date: jobApp.createdDate,
-            updated_date: jobApp.updatedDate
+            updated_date: jobApp.updatedDate,
+            job_title: jobApp.jobTitle
         }
     };
     private toStatusDbRow(statusHistory: StatusHistory) {
