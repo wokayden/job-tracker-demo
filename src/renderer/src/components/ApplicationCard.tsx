@@ -14,6 +14,9 @@ export function ApplicationCard(props: ApplicationCardProps): ReactElement {
     return (
         <div className={styles.appCard}>
             <div>
+                <span>{app.jobTitle}</span>
+            </div>
+            <div>
                 <span>{app.companyName}</span>
                 <span>{new Date(app.createdDate).toDateString()}</span>
             </div>
