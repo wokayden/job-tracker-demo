@@ -12,6 +12,7 @@ export class Repository implements JobApplicationRepository {
     private selectSources: Statement;
     private insertSource: Statement;
     private insertStatusHistory: Statement;
+    private selectStatusHistory: Statement;
 
     constructor(db: Database) {
         this.database = db;
@@ -23,7 +24,8 @@ export class Repository implements JobApplicationRepository {
         this.deleteApp = db.prepare("DELETE FROM applications WHERE uid = ?;");
         this.selectSources = db.prepare("SELECT * FROM sources;");
         this.insertSource = db.prepare("INSERT OR IGNORE INTO sources (name) VALUES (?);");
-        this.insertStatusHistory = db.prepare("INSERT INTO status_history (uid, application_uid, old_status, new_status, changed_at) VALUES (@uid, @application_uid, @old_status, @new_status, @changed_at)")
+        this.insertStatusHistory = db.prepare("INSERT INTO status_history (uid, application_uid, old_status, new_status, changed_at) VALUES (@uid, @application_uid, @old_status, @new_status, @changed_at)");
+        this.selectStatusHistory = db.prepare("SELECT * FROM status_history");
     }
 
     //map data
@@ -64,6 +66,15 @@ export class Repository implements JobApplicationRepository {
             changed_at: statusHistory.changedAt
         }
     };
+    private toStatusHistory(dbRow: any): StatusHistory {
+        return {
+            uid: dbRow.uid,
+            applicationUid: dbRow.application_uid,
+            oldStatus: dbRow.old_status,
+            newStatus: dbRow.new_status,
+            changedAt: dbRow.changed_at
+        }
+    }
 
     private makeStatusRowFromJobApp(newJobApp: JobApplication, oldJobApp?: JobApplication) {
         const statusChange: StatusHistory = {
@@ -175,4 +186,7 @@ export class Repository implements JobApplicationRepository {
 
         return response;
     };
+    getStatusHistory() {
+        return this.selectStatusHistory.all().map(h => { return this.toStatusHistory(h) });
+    }
 }

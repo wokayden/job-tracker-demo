@@ -14,9 +14,9 @@ export function ApplicationCard(props: ApplicationCardProps): ReactElement {
     return (
         <div className={styles.appCard}>
             <div>
-                <span>{app.jobTitle}</span>
+                <span className={styles.title}>{app.jobTitle}</span>
             </div>
-            <div>
+            <div className={styles.flex}>
                 <span>{app.companyName}</span>
                 <span>{new Date(app.createdDate).toDateString()}</span>
             </div>
@@ -25,6 +25,9 @@ export function ApplicationCard(props: ApplicationCardProps): ReactElement {
                 {app.url && (
                     <RiExternalLinkFill onClick={() => { window.api.openExternal(app.url!) }} />
                 )}
+            </div>
+            <div>
+                <span>{app.notes}</span>
             </div>
             <div>
                 <button disabled={app.status !== Status.Applied} onClick={() => {onStatusChange(app.uid, Status.Lead)}}>lead</button>
