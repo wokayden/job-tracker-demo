@@ -1,5 +1,5 @@
 import { JobApplication, Metrics, Status, StatusHistory, WeekData } from ".";
-import { isSameWeek, min, max, eachWeekOfInterval, add } from "date-fns";
+import { isSameWeek, min, max, eachWeekOfInterval, add, differenceInDays } from "date-fns";
 
 export function computeMetrics(applications: JobApplication[], histories: StatusHistory[]): Metrics {
     const appliedCount = applications.length;
@@ -32,6 +32,18 @@ export function computeMetrics(applications: JobApplication[], histories: Status
         }
     }).sort((a, b) =>  new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
+    const historyApplicationUids = new Set(histories.map(h => h.applicationUid));
+    const durations: number[] = [];
+
+    historyApplicationUids.forEach((uid) => {
+        const entriesForThisApp = histories.filter((h) => h.applicationUid === uid)
+            .sort((a, b) => new Date(b.changedAt).getTime() - new Date(a.changedAt).getTime());
+        const firstEntry = entriesForThisApp[0];
+        if (entriesForThisApp.length > 1) {
+            const nextEntry = entriesForThisApp[1];
+            durations.push(differenceInDays(new Date(firstEntry.changedAt), new Date(nextEntry.changedAt)));        
+        }
+    });
 
 
     return {
@@ -42,6 +54,6 @@ export function computeMetrics(applications: JobApplication[], histories: Status
         percentArchived,
         sourceBreakdown,
         weeklyData,
-        avgTimeToStatusChange: 1
+        avgTimeToStatusChange: durations.reduce((acc, curr) => acc+curr, 0)/durations.length
     }
 }
