@@ -51,7 +51,7 @@ export function ApplicationForm(): ReactElement {
 
     function loadSources() {
         window.api.getSources().then(s => {
-            setAvailableSources(s);
+            setAvailableSources(s.sort((a, b) => a.localeCompare(b)));
         });        
     };
 

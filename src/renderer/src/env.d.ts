@@ -8,7 +8,8 @@ export interface Api {
     deleteApplication: (uid: string) => Promise<RepoResponse>,
     getSources: () => Promise<string[]>,
     addSource: (s: string) => Promise<RepoResponse>,
-    openExternal: (url: string) => void
+    openExternal: (url: string) => void,
+    getStatusHistory: () => Promise<StatusHistory[]>
 }
 
 declare global {

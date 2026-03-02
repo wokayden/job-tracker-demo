@@ -27,11 +27,16 @@ app.on('ready', () => {
     ipcMain.handle(channelKeys.deleteApplication, (_e, uid: string) => {
         return repo.deleteApplication(uid)
     });
+
     ipcMain.handle(channelKeys.getSources, () => {
         return repo.getSources()
     });
     ipcMain.handle(channelKeys.addSource, (_e, s: string) => {
         return repo.addSource(s)
+    });
+
+    ipcMain.handle(channelKeys.getStatusHistory, () => {
+        return repo.getStatusHistory()
     });
 
     ipcMain.handle(channelKeys.openExternal, (_e, url: string) => {

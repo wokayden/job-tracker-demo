@@ -6,5 +6,6 @@ export const channelKeys = {
     deleteApplication: "app:delete",
     getSources: "sources:get-all",
     addSource: "sources:add",
-    openExternal: "openExternal"
+    openExternal: "openExternal",
+    getStatusHistory: "status:get-all"
 } as const;

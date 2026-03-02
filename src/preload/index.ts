@@ -11,5 +11,6 @@ contextBridge.exposeInMainWorld('api', {
     deleteApplication: (uid: string) => ipcRenderer.invoke(channelKeys.deleteApplication, uid),
     getSources: () => ipcRenderer.invoke(channelKeys.getSources),
     addSource: (s: string) => ipcRenderer.invoke(channelKeys.addSource, s),
-    openExternal: (url: string) => ipcRenderer.invoke(channelKeys.openExternal, url)
+    openExternal: (url: string) => ipcRenderer.invoke(channelKeys.openExternal, url),
+    getStatusHistory: () => ipcRenderer.invoke(channelKeys.getStatusHistory)
 });

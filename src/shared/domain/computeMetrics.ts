@@ -1,7 +1,7 @@
-import { JobApplication, Metrics, Source, Status, WeekData } from ".";
+import { JobApplication, Metrics, Status, StatusHistory, WeekData } from ".";
 import { isSameWeek, min, max, eachWeekOfInterval, add } from "date-fns";
 
-export function computeMetrics(applications: JobApplication[]): Metrics {
+export function computeMetrics(applications: JobApplication[], histories: StatusHistory[]): Metrics {
     const appliedCount = applications.length;
     const leadCount = applications.filter(a => a.status === Status.Lead).length;
     const archivedCount = applications.filter(a => a.status === Status.Archived).length;
