@@ -45,6 +45,10 @@ export function computeMetrics(applications: JobApplication[], histories: Status
         }
     });
 
+    const avgTimeToStatusChange = durations.reduce((acc, curr) => acc+curr, 0)/durations.length;
+
+    const formerLeads = new Set(histories.filter(h => h.newStatus === Status.Lead)
+    .map(h => h.uid)).size;
 
     return {
         appliedCount,
@@ -54,6 +58,7 @@ export function computeMetrics(applications: JobApplication[], histories: Status
         percentArchived,
         sourceBreakdown,
         weeklyData,
-        avgTimeToStatusChange: durations.reduce((acc, curr) => acc+curr, 0)/durations.length
+        avgTimeToStatusChange,
+        formerLeads
     }
 }

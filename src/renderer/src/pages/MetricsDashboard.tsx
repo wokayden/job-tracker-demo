@@ -35,7 +35,10 @@ export function MetricsDashboard(): ReactElement {
                             Total archived: {metrics.archivedCount} ({metrics.percentArchived.toFixed(2)}%)
                         </div>
                         <div>
-                            Total leads: {metrics.leadCount} ({metrics.percentLead.toFixed(2)}%)
+                            Total leads: {metrics.leadCount} current ({metrics.percentLead.toFixed(2)}%) <br /> {metrics.formerLeads} former leads ({((metrics.formerLeads/metrics.appliedCount)*100).toFixed(2)}%)
+                        </div>
+                        <div>
+                            Avg time to status change: {metrics.avgTimeToStatusChange.toFixed()} days
                         </div>
                     </div>
                 )

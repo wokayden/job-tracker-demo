@@ -6,7 +6,8 @@ export interface Metrics {
     percentArchived: number,
     sourceBreakdown: Source[],
     weeklyData: WeekData[],
-    avgTimeToStatusChange: number
+    avgTimeToStatusChange: number,
+    formerLeads: number
 }
 
 export interface Source {
