@@ -1,4 +1,4 @@
-import { JobApplication, RepoResponse } from "../../shared/domain";
+import { JobApplication, RepoResponse, StatusHistory } from "../../shared/domain";
 
 export interface Api {
     getApplications: () => Promise<JobApplication[]>,

@@ -37,21 +37,21 @@ export function ApplicationList(props: ApplicationListProps): ReactElement {
                         {
                             status === Status.Applied && appliedApplications.map(a => {
                                 return (
-                                    <ApplicationCard app={a} onStatusChange={(uid, newStatus, reason) => {onChangeApplicationStatus(uid, newStatus, reason)}} />
+                                    <ApplicationCard key={a.uid} app={a} onStatusChange={(uid, newStatus, reason) => {onChangeApplicationStatus(uid, newStatus, reason)}} />
                                 )
                             })
                         }
                         {
                             status === Status.Archived && archivedApplications.map(a => {
                                 return (
-                                    <ApplicationCard app={a} onStatusChange={(uid, newStatus, reason) => {onChangeApplicationStatus(uid, newStatus, reason)}} />
+                                    <ApplicationCard key={a.uid} app={a} onStatusChange={(uid, newStatus, reason) => {onChangeApplicationStatus(uid, newStatus, reason)}} />
                                 )
                             })
                         }
                         {
                             status === Status.Lead && leadApplications.map(a => {
                                 return (
-                                    <ApplicationCard app={a} onStatusChange={(uid, newStatus, reason) => {onChangeApplicationStatus(uid, newStatus, reason)}} />
+                                    <ApplicationCard key={a.uid} app={a} onStatusChange={(uid, newStatus, reason) => {onChangeApplicationStatus(uid, newStatus, reason)}} />
                                 )
                             })
                         }
