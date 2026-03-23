@@ -1,0 +1,29 @@
+.searchContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 8px 32px 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #2e231a;
+    font-size: 14px;
+    font-variant: small-caps;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.clearButton {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #2e231a;
+    padding: 0 4px;
+    line-height: 1;
+}

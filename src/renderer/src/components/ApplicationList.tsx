@@ -1,22 +1,32 @@
 import React, { ReactElement, useContext } from 'react';
-import { Status } from '../../../shared/domain';
+import { JobApplication, Status } from '../../../shared/domain';
 import { ApplicationContext } from '../context/ApplicationContext';
 import { ApplicationCard } from '.';
 
 type ApplicationListProps = {
-    status: Status
+    status: Status;
+    searchQuery?: string;
 }
 
 export function ApplicationList(props: ApplicationListProps): ReactElement {
-    const { status } = props;
+    const { status, searchQuery = '' } = props;
 
     const {
-        appliedApplications, 
-        archivedApplications, 
-        leadApplications, 
-        isLoading, 
+        appliedApplications,
+        archivedApplications,
+        leadApplications,
+        isLoading,
         fetchApplications
     } = useContext(ApplicationContext);
+
+    function filterBySearch(apps: JobApplication[]): JobApplication[] {
+        if (!searchQuery.trim()) return apps;
+        const q = searchQuery.toLowerCase();
+        return apps.filter(a =>
+            a.jobTitle.toLowerCase().includes(q) ||
+            a.companyName.toLowerCase().includes(q)
+        );
+    }
 
     function onChangeApplicationStatus(uid: string, status: Status, reason?: string) {
         window.api.updateApplication(uid, {status}).then(r => {
@@ -35,21 +45,21 @@ export function ApplicationList(props: ApplicationListProps): ReactElement {
                 isLoading ? (<span>Loading...</span>) : (
                     <ul>
                         {
-                            status === Status.Applied && appliedApplications.map(a => {
+                            status === Status.Applied && filterBySearch(appliedApplications).map(a => {
                                 return (
                                     <ApplicationCard key={a.uid} app={a} onStatusChange={(uid, newStatus, reason) => {onChangeApplicationStatus(uid, newStatus, reason)}} />
                                 )
                             })
                         }
                         {
-                            status === Status.Archived && archivedApplications.map(a => {
+                            status === Status.Archived && filterBySearch(archivedApplications).map(a => {
                                 return (
                                     <ApplicationCard key={a.uid} app={a} onStatusChange={(uid, newStatus, reason) => {onChangeApplicationStatus(uid, newStatus, reason)}} />
                                 )
                             })
                         }
                         {
-                            status === Status.Lead && leadApplications.map(a => {
+                            status === Status.Lead && filterBySearch(leadApplications).map(a => {
                                 return (
                                     <ApplicationCard key={a.uid} app={a} onStatusChange={(uid, newStatus, reason) => {onChangeApplicationStatus(uid, newStatus, reason)}} />
                                 )
